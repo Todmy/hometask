@@ -21,7 +21,7 @@ function TableController($scope) {
     };
 
     $scope.showElementForm = function (str, index) {
-        $scope.mainObj.index = (index<=arrElems.length)?index:arrElems.length;
+        $scope.mainObj.index = (index <= arrElems.length) ? index : arrElems.length;
         $scope.newElem = arrElems[$scope.mainObj.index];
         showFormFunc($scope, str);
     };
@@ -47,20 +47,39 @@ function addElemController($scope) {
     $scope.submit = function () {
         var errorObj = haveSomeErrors($scope, this);
         if (errorObj !== null) {
-            $scope.newElem[errorObj.inputArea] += '+';
+            $scope.newElem[errorObj.inputArea] = errorObj.func($scope.newElem[errorObj.inputArea]);
             alert(errorObj.message);
         } else {
             if (!$scope.newElem.$$hashKey)arrElems.push($scope.newElem);
             this.mainObj.showForm = false;
         }
     }
+    $scope.close = function () {
+        if ($scope.mainObj.index === arrElems.length) {
+            $scope.mainObj.showForm = false;
+        } else {
+            $scope.submit();
+        }
+    }
 }
 
 function haveSomeErrors($scope, form) {
-    if (isOriginal(form.newElem.sku) && $scope.mainObj.index === arrElems.length || isOriginal(form.newElem.sku)>1) {
-        return {inputArea: 'sku', message: 'Already exist elements with such SKU!'}
+    if (isOriginal(form.newElem.sku) && $scope.mainObj.index === arrElems.length || isOriginal(form.newElem.sku) > 1) {
+        return {
+            inputArea: 'sku', message: 'Already exist elements with such SKU!', func: function (cont) {
+                return cont += '+';
+            }
+        }
     } else if (form.newElem.price < 0) {
-        return {inputArea: 'price', message: 'A price must be greater then 0!'}
+        return {
+            inputArea: 'price', message: 'A price must be greater then 0!', func: function (cont) {
+                return cont = -cont;
+            }
+        }
+    } else if (!form.product.$valid) {
+        return {
+            inputArea: 'title', message: 'Fill in all fields!'
+        }
     }
     return null;
 }
