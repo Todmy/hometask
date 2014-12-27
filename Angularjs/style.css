@@ -16,7 +16,7 @@ button{
     display: block;
 }
 #product{
-    display: none;
+    /*display: none;*/
     position: fixed;
     top: 40%;
     left: 50%;
@@ -32,7 +32,7 @@ button{
     border: 1px dotted #000000;
 }
 #class-wrapper{
-    display: none;
+    /*display: none;*/
     position: fixed;
     top: 0;
     left: 0;
@@ -40,4 +40,7 @@ button{
     bottom: 0;
     z-index: 9000;
     background-color: rgba(0,0,0,.75);
+}
+.invalid, .ng-invalid{
+    border: 2px solid #d01821;
 }

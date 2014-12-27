@@ -8,7 +8,8 @@
     <link href="style.css" type="text/css" rel="stylesheet">
 </head>
 <body ng-app="app">
-<div ng-controller="TableController">
+<div ng-controller="TableController as ctrl">
+    <my-add-element-form ng-if="mainObj.showForm"></my-add-element-form>
     <table>
         <thead>
         <tr>
@@ -22,16 +23,17 @@
         <tr ng-repeat="row in arrElems">
             <td>{{ row.title }}</td>
             <td>{{ row.sku }}</td>
-            <td>{{ row.price | number }}</td>
+            <td>{{ row.price | currency }}</td>
             <td>
-                <button class="edit">edit</button>
-                <button class="delete">delete</button>
+                <button class="edit" ng-click="editElement($index)">edit</button>
+                <button class="delete" ng-click="deleteElement($index)">delete</button>
             </td>
         </tr>
         </tbody>
     </table>
-    <button class="add">add</button>
-    <button class="to-JSON">to-JSON</button>
+    <button class="add" ng-click="addElement('add')">add</button>
+    <button class="to-JSON" ng-click="toJson()">to-JSON</button>
+    <pre ng-show="mainObj.showJson"> {{ arrElems | json }} </pre>
 </div>
 </body>
 </html>
