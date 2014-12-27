@@ -9,7 +9,7 @@
 </head>
 <body ng-app="app">
 <div ng-controller="TableController as ctrl">
-    <my-add-element-form ng-if="mainObj.showForm"></my-add-element-form>
+    <my-add-element-form ng-show="mainObj.showForm"></my-add-element-form>
     <table>
         <thead>
         <tr>
@@ -25,13 +25,13 @@
             <td>{{ row.sku }}</td>
             <td>{{ row.price | currency }}</td>
             <td>
-                <button class="edit" ng-click="editElement($index)">edit</button>
+                <button class="edit" ng-click="showElementForm('edit', $index)">edit</button>
                 <button class="delete" ng-click="deleteElement($index)">delete</button>
             </td>
         </tr>
         </tbody>
     </table>
-    <button class="add" ng-click="addElement('add')">add</button>
+    <button class="add" ng-click="showElementForm('add')">add</button>
     <button class="to-JSON" ng-click="toJson()">to-JSON</button>
     <pre ng-show="mainObj.showJson"> {{ arrElems | json }} </pre>
 </div>

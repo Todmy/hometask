@@ -1,6 +1,6 @@
-var arrElems = [{title: 'prod1', sku: 'sku1', price: '14'},
-    {title: 'prod2', sku: 'sku2', price: '234'},
-    {title: 'prod3', sku: 'sku3', price: '76'}];
+var arrElems = [{title: 'prod1', sku: 'sku1', price: 14},
+    {title: 'prod2', sku: 'sku2', price: 234},
+    {title: 'prod3', sku: 'sku3', price: 76}];
 
 var myApp = angular.module('app', []);
 
@@ -20,31 +20,16 @@ function TableController($scope) {
         if (confirm('Do you want to delete ' + (1 + index) + ' element?')) arrElems.splice(index, 1);
     };
 
-    $scope.addElement = function (str) {
-        resetFilds($scope);
+    $scope.showElementForm = function (str, index) {
+        $scope.mainObj.index = (index<=arrElems.length)?index:arrElems.length;
+        $scope.newElem = arrElems[$scope.mainObj.index];
         showFormFunc($scope, str);
-    };
-
-    $scope.editElement = function (index) {
-        $scope.newElem.index = index;
-
-        $scope.newElem.title = arrElems[$scope.newElem.index].title;
-        $scope.newElem.sku = arrElems[$scope.newElem.index].sku;
-        $scope.newElem.price = (+arrElems[$scope.newElem.index].price); // caught an error in 'number' input
-
-        showFormFunc($scope, 'edit');
     };
 }
 
 function showFormFunc($scope, str) {
     $scope.mainObj.showForm = true;
     $scope.mainObj.val = str;
-}
-
-function resetFilds($scope) {
-    for (var key in $scope.newElem) {
-        $scope.newElem[key] = '';
-    }
 }
 
 myApp.directive("myAddElementForm", function () {
@@ -60,31 +45,19 @@ myApp.controller("addElemController", addElemController);
 
 function addElemController($scope) {
     $scope.submit = function () {
-        if ($scope.newElem.index || $scope.newElem.index === 0) {
-            arrElems.splice($scope.newElem.index, 1);
-        }
-        var errorObj = haveSomeErrors(this);
+        var errorObj = haveSomeErrors($scope, this);
         if (errorObj !== null) {
-            this.product[errorObj.inputArea].$invalid = true;
+            $scope.newElem[errorObj.inputArea] += '+';
             alert(errorObj.message);
         } else {
-            if ($scope.newElem.index || $scope.newElem.index === 0) {
-                arrElems.splice($scope.newElem.index, 0, {
-                    title: $scope.newElem.title,
-                    sku: $scope.newElem.sku,
-                    price: $scope.newElem.price
-                });
-            } else {
-                arrElems.push({title: $scope.newElem.title, sku: $scope.newElem.sku, price: $scope.newElem.price}); //inputs reset because i used ng-if
-            }
-            resetFilds($scope);
+            if (!$scope.newElem.$$hashKey)arrElems.push($scope.newElem);
             this.mainObj.showForm = false;
         }
     }
 }
 
-function haveSomeErrors(form) {
-    if (!isOriginal(form.newElem.sku)) {
+function haveSomeErrors($scope, form) {
+    if (isOriginal(form.newElem.sku) && $scope.mainObj.index === arrElems.length || isOriginal(form.newElem.sku)>1) {
         return {inputArea: 'sku', message: 'Already exist elements with such SKU!'}
     } else if (form.newElem.price < 0) {
         return {inputArea: 'price', message: 'A price must be greater then 0!'}
@@ -93,10 +66,9 @@ function haveSomeErrors(form) {
 }
 
 function isOriginal(sku) {
+    var quantity = 0;
     for (var i = 0; i < arrElems.length; i++) {
-        if (arrElems[i].sku == sku) return false
+        if (arrElems[i].sku == sku) quantity += 1;
     }
-    return true;
+    return quantity;
 }
-
-
