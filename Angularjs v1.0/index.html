@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+
+    <script src="main.js"></script>
+    <script src="TableController.js"></script>
+    <script src="myAddElementForm.js"></script>
+    <script src="greatThen.js"></script>
+    <script src="isOrigin.js"></script>
+
+    <link href="style.css" type="text/css" rel="stylesheet">
+</head>
+<body ng-app="app">
+<h1>Products management page</h1>
+<div ng-controller="TableController as ctrl" ng-init="mainObj.showForm = false" >
+    <!--<my-add-element-form my-object="newElem" my-action="mainObj.action" ng-show="mainObj.showForm"></my-add-element-form>-->
+    <my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-show="mainObj.showForm"></my-add-element-form>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Sku</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in arrElems">
+            <td>{{ row.title }}</td>
+            <td>{{ row.sku }}</td>
+            <td>{{ row.price | currency }}</td>
+            <td>
+                <button class="edit" ng-click="showElementForm('edit', $index)">edit</button>
+                <button class="delete" ng-click="deleteElement($index)">delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="add" ng-click="showElementForm('add')">add</button>
+    <button class="to-JSON" ng-init="mainObj.showJson = false" ng-click="mainObj.showJson = !mainObj.showJson">to-JSON</button>
+    <pre ng-show="mainObj.showJson"> {{ arrElems | json }} </pre>
+</div>
+</body>
+</html>
