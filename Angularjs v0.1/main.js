@@ -50,7 +50,7 @@ function addElemController($scope) {
             $scope.newElem[errorObj.inputArea] = errorObj.func($scope.newElem[errorObj.inputArea]);
             alert(errorObj.message);
         } else {
-            if (!$scope.newElem.$$hashKey)arrElems.push($scope.newElem);
+            if ($scope.mainObj.val === 'add')arrElems.push($scope.newElem);
             this.mainObj.showForm = false;
         }
     }
@@ -66,17 +66,22 @@ function addElemController($scope) {
 function haveSomeErrors($scope, form) {
     if (isOriginal(form.newElem.sku) && $scope.mainObj.index === arrElems.length || isOriginal(form.newElem.sku) > 1) {
         return {
-            inputArea: 'sku', message: 'Already exist elements with such SKU!', func: function (cont) {
+            inputArea: 'sku',
+            message: 'Already exist elements with such SKU!',
+            func: function (cont) {
                 return cont += '+';
             }
         }
-    } else if (form.newElem.price < 0) {
+    }
+    if (form.newElem.price < 0) {
         return {
             inputArea: 'price', message: 'A price must be greater then 0!', func: function (cont) {
                 return cont = -cont;
             }
         }
-    } else if (!form.product.$valid) {
+    }
+
+    if (!form.product.$valid) {
         return {
             inputArea: 'title', message: 'Fill in all fields!'
         }

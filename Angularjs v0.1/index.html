@@ -33,7 +33,7 @@
         </tbody>
     </table>
     <button class="add" ng-click="showElementForm('add')">add</button>
-    <button class="to-JSON" ng-click="toJson()">to-JSON</button>
+    <button class="to-JSON" ng-init="mainObj.showJson = false" ng-click="mainObj.showJson = !mainObj.showJson">to-JSON</button>
     <pre ng-show="mainObj.showJson"> {{ arrElems | json }} </pre>
 </div>
 </body>
