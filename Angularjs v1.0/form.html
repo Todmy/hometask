@@ -1,5 +1,5 @@
 <div>
-    <div id="class-wrapper" ng-click="close()"></div>
+    <div id="class-wrapper" ng-click="cancelAction()"></div>
     <form id="product" ng-submit="submit()" name="product">
         <table>
             <tr>
@@ -15,7 +15,7 @@
                 <td><input name="price" type="number" value='' ng-model="myObject.price" required great-then=0></td>
             </tr>
         </table>
-        <input type="submit" value="{{ myAction }}">
-        <input type="submit" value="cancel"  ng-click="close()">
+        <input type="submit" value="{{ myAction }}" ng-disabled="product.title.$pristine || product.title.$pristine || product.title.$pristine">
+        <input type="submit" value="cancel"  ng-click="cancelAction()">
     </form>
 </div>

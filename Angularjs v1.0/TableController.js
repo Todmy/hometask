@@ -1,12 +1,23 @@
-myApp.controller('TableController', TableController);
+myApp.controller('TableController', function ($scope) {
+    function TableController() {
 
-function TableController($scope) {
+        $scope.mainObj = {};
+        $scope.newElem = {};
+        $scope.arrElems = arrElems;
 
-    $scope.mainObj = {};
-    $scope.newElem = {};
-    $scope.arrElems = arrElems;
+        $scope.deleteElement = this.deleteElement.bind(this);
 
-    $scope.deleteElement = function (index) {
+        $scope.showElementForm = this.showElementForm.bind(this);
+    }
+
+    TableController.prototype.showElementForm = function (action, index) {
+        $scope.mainObj.index = (index <= arrElems.length) ? index : arrElems.length;
+        $scope.newElem = arrElems[$scope.mainObj.index];
+        $scope.mainObj.action = action;
+        $scope.mainObj.showForm = true;
+    };
+
+    TableController.prototype.deleteElement = function (index) {
         var message = 'Do you want to delete ' + arrElems[index].title + '(' + arrElems[index].sku + ')' + ' element?';
 
         if (confirm(message)) {
@@ -14,10 +25,6 @@ function TableController($scope) {
         }
     };
 
-    $scope.showElementForm = function (action, index) {
-        $scope.mainObj.index = (index <= arrElems.length) ? index : arrElems.length;
-        $scope.newElem = arrElems[$scope.mainObj.index];
-        $scope.mainObj.action = action;
-        $scope.mainObj.showForm = true;
-    };
-}
+    return new TableController();
+});
+

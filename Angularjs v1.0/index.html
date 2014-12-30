@@ -17,8 +17,7 @@
 <body ng-app="app">
 <h1>Products management page</h1>
 <div ng-controller="TableController as ctrl" ng-init="mainObj.showForm = false" >
-    <!--<my-add-element-form my-object="newElem" my-action="mainObj.action" ng-show="mainObj.showForm"></my-add-element-form>-->
-    <my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-show="mainObj.showForm"></my-add-element-form>
+    <my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-if="mainObj.showForm"></my-add-element-form>
     <table>
         <thead>
         <tr>
