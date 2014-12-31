@@ -12,7 +12,7 @@ myApp.controller('TableController', function ($scope) {
 
     TableController.prototype.showElementForm = function (action, index) {
         $scope.mainObj.index = (index <= arrElems.length) ? index : arrElems.length;
-        $scope.newElem = arrElems[$scope.mainObj.index];
+        $scope.newElem = arrElems[$scope.mainObj.index] || {};
         $scope.mainObj.action = action;
         $scope.mainObj.showForm = true;
     };

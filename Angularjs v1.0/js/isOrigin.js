@@ -1,6 +1,6 @@
 myApp.directive('isOrigin', function () {
         function isOriginal(sku, index) {
-            for (var i = 0; i < arrElems.length; i++) {
+            for (var i = 0, arr = arrElems.length; i < arr; i++) {
                 if (arrElems[i].sku == sku && i !== index) {
                     return false;
                 }

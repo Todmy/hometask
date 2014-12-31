@@ -1,4 +1,4 @@
-myApp.controller("addElemController", function ($scope) {
+myApp.controller("AddElemController", function ($scope) {
     function AddElemController() {
         $scope.submit = this.submit.bind(this);
 
@@ -15,18 +15,22 @@ myApp.controller("addElemController", function ($scope) {
     AddElemController.prototype.submit = function () {
 
         if (!$scope.product.$valid) {
-            var message = 'Correctly fill in all fields!!!!';
-            alert(message);
-            return false;
+            alert('Correctly fill in all fields!!!!');
+            return;
         }
 
-        if ($scope.myAction === 'add') {
-            arrElems.push($scope.myObject);
+        switch ($scope.myAction) {
+            case 'add':
+                arrElems.push($scope.myObject);
+                break;
+            case 'edit':
+                arrElems.splice($scope.objIndex, 1, $scope.myObject);
+                break;
+            default :
+                throw new Error('An unknown action type');
+                break;
         }
 
-        if ($scope.myAction === 'edit') {
-            arrElems.splice($scope.objIndex, 1, $scope.myObject);
-        }
         this.close();
     };
 
@@ -40,9 +44,9 @@ myApp.controller("addElemController", function ($scope) {
 myApp.directive("myAddElementForm", function () {
     return {
         restrict: 'E',
-        templateUrl: 'form.html',
+        templateUrl: 'lib/form.html',
         replace: true,
-        controller: 'addElemController',
+        controller: 'AddElemController',
         scope: {
             myAction: '=myAction',
             visibleForm: '=ngIf',
