@@ -9,6 +9,7 @@
     <script src="js/module.js"></script>
     <script src="js/table-controller.js"></script>
     <script src="js/my-add-element-form.js"></script>
+    <script src="js/arr-elems.js"></script>
     <script src="lib/is-origin.js"></script>
 
     <link href="resources/style.css" type="text/css" rel="stylesheet">
@@ -16,8 +17,7 @@
 <body ng-app="app">
 <h1>Products management page</h1>
 <div ng-controller="TableController as ctrl" ng-init="mainObj.showForm = false" >
-    <!--<my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-if="mainObj.showForm"></my-add-element-form>-->
-    <my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-if="mainObj.showForm"></my-add-element-form>
+    <div ng-include="'resources/form.html'" ng-if="mainObj.showForm" ng-controller="AddElemController"></div>
     <table>
         <thead>
         <tr>
@@ -28,7 +28,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="row in arrElems">
+        <tr ng-repeat="row in list">
             <td>{{ row.title }}</td>
             <td>{{ row.sku }}</td>
             <td>{{ row.price | currency }}</td>
@@ -41,7 +41,7 @@
     </table>
     <button class="add" ng-click="showElementForm('add')">add</button>
     <button class="to-JSON" ng-init="mainObj.showJson = false" ng-click="mainObj.showJson = !mainObj.showJson">to-JSON</button>
-    <pre ng-show="mainObj.showJson"> {{ arrElems | json }} </pre>
+    <pre ng-show="mainObj.showJson"> {{ list | json }} </pre>
 </div>
 </body>
 </html>
