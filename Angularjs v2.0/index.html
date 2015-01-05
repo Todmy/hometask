@@ -6,16 +6,17 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
 
-    <script src="js/main.js"></script>
-    <script src="js/TableController.js"></script>
-    <script src="js/myAddElementForm.js"></script>
-    <script src="lib/isOrigin.js"></script>
+    <script src="js/module.js"></script>
+    <script src="js/table-controller.js"></script>
+    <script src="js/my-add-element-form.js"></script>
+    <script src="lib/is-origin.js"></script>
 
     <link href="resources/style.css" type="text/css" rel="stylesheet">
 </head>
 <body ng-app="app">
 <h1>Products management page</h1>
 <div ng-controller="TableController as ctrl" ng-init="mainObj.showForm = false" >
+    <!--<my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-if="mainObj.showForm"></my-add-element-form>-->
     <my-add-element-form my-object="newElem" obj-index="mainObj.index" my-action="mainObj.action" ng-if="mainObj.showForm"></my-add-element-form>
     <table>
         <thead>

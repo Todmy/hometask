@@ -1,4 +1,4 @@
-angular.module('app').directive('isOrigin', function () {
+angular.module('app').directive('isOrigin', function (arrElems) {
         function isOriginal(sku, index) {
             for (var i = 0, arr = arrElems.length; i < arr; i++) {
                 if (arrElems[i].sku == sku && i !== index) {
