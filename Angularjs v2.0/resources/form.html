@@ -1,0 +1,21 @@
+<div>
+    <div id="class-wrapper" ng-click="cancelAction()"></div>
+    <form id="product" ng-submit="submit()" name="product">
+        <table>
+            <tr>
+                <td>Title</td>
+                <td><input name="title" type="text" ng-model="myObject.title" required></td>
+            </tr>
+            <tr>
+                <td>Sku</td>
+                <td><input name="sku" type="text" ng-model="myObject.sku" required is-origin></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input name="price" type="number" ng-model="myObject.price" required min="0"></td>
+            </tr>
+        </table>
+        <input type="submit" value="{{ myAction }}" ng-disabled="product.$pristine">
+        <button ng-click="cancelAction()">cancel</button>
+    </form>
+</div>
