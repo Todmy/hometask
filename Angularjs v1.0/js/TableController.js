@@ -1,4 +1,4 @@
-myApp.controller('TableController', function ($scope) {
+angular.module('app').controller('TableController', function ($scope) {
     function TableController() {
 
         $scope.mainObj = {};

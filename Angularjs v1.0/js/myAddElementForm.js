@@ -1,4 +1,4 @@
-myApp.controller("AddElemController", function ($scope) {
+angular.module('app').controller("AddElemController", function ($scope) {
     function AddElemController() {
         $scope.submit = this.submit.bind(this);
 
@@ -41,10 +41,10 @@ myApp.controller("AddElemController", function ($scope) {
     return new AddElemController();
 });
 
-myApp.directive("myAddElementForm", function () {
+angular.module('app').directive("myAddElementForm", function () {
     return {
         restrict: 'E',
-        templateUrl: 'lib/form.html',
+        templateUrl: 'resources/form.html',
         replace: true,
         controller: 'AddElemController',
         scope: {
