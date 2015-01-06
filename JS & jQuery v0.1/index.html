@@ -3,10 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Products management page</title>
-    <link href="style.css" type="text/css" rel="stylesheet">
-    <script src="jquery-2.1.1.min.js"></script>
+
+    <link href="resources/style.css" type="text/css" rel="stylesheet">
+
+    <script src="lib/jquery-2.1.1.min.js"></script>
+    <script src="lib/underscore.js"></script>
 </head>
-<body>
+<body jq-app>
 <h1>Products management page</h1>
 
 <div id="class-wrapper"></div>
@@ -37,47 +40,31 @@
         <th> Actions</th>
     </tr>
     </thead>
-    <tbody some="one">
-    <!--<tr>-->
-        <!--<td>product 1</td>-->
-        <!--<td>sku1</td>-->
-        <!--<td>10</td>-->
-        <!--<td>-->
-            <!--<button class="edit">edit</button>-->
-            <!--<button class="delete">delete</button>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<td>product 2</td>-->
-        <!--<td>sku2</td>-->
-        <!--<td>20</td>-->
-        <!--<td>-->
-            <!--<button class="edit">edit</button>-->
-            <!--<button class="delete">delete</button>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<td>product 3</td>-->
-        <!--<td>sku3</td>-->
-        <!--<td>13</td>-->
-        <!--<td>-->
-            <!--<button class="edit">edit</button>-->
-            <!--<button class="delete">delete</button>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<td>product 4</td>-->
-        <!--<td>sku4</td>-->
-        <!--<td>15</td>-->
-        <!--<td>-->
-            <!--<button class="edit">edit</button>-->
-            <!--<button class="delete">delete</button>-->
-        <!--</td>-->
-    <!--</tr>-->
+    <tbody jq-repeat>
+    <tr>
+        <td>${ title }</td>
+        <td>${ sku }</td>
+        <td>${ price }</td>
+        <td>
+            <button jq-click="showElementForm('edit', $index)">edit</button>
+            <button jq-click="deleteElement($index)">delete</button>
+        </td>
+    </tr>
     </tbody>
 </table>
-<button class="add">add</button>
-<button class="to-JSON">to-JSON</button>
-<script src="script.js"></script>
+<button jq-click="showElementForm('add')">add</button>
+<button jq-init jq-click="mainObj.showJson = !mainObj.showJson">to-JSON</button>
+<pre jq-show></pre>
+
+<script src="js/arr-elems.js"></script>
+
+<script src="js/jq-repeat.js"></script>
+
+<script src="js/delete-row.js"></script>
+<script src="js/json-format.js"></script>
+
+<script src="js/jq-click.js"></script>
+
+<script src="js/main.js"></script>
 </body>
 </html>
