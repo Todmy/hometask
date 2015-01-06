@@ -8,7 +8,7 @@ angular.module('app').factory('arrElems', function () {
         setElement: function (elem, index) { /*adds element in some place of array, if index was passed and adds element at the end of array, if was not passed*/
             return (index !== undefined) ? list.splice(index, 1, elem) : list.push(elem);
         },
-        getElements: function (index) { /*gets element by the index*/
+        getElement: function (index) { /*gets element by the index*/
             return (index !== undefined) ? list[index] : list;
         },
         deleteElement: function (index) { /*deletes element by index*/
