@@ -1,10 +1,10 @@
 (function ($) {
-    //var arrElems = new CreateArrElems();
     $.fn.jqRepeat = function () {
+        var self = this;
         var resultTmp = _.reduce(arrElems.getElement(), function (memo, num) {
-            return memo + jqReplace(tmpRepeatPointer, num)
+            return memo + jqReplace(self[0].innerHTML, num)
         }, '');
-        $(this).find('[jq-repeat]').html(resultTmp);
+        $(self).html(resultTmp);
     };
 })(jQuery);
 
