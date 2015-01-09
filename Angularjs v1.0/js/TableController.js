@@ -5,7 +5,7 @@ angular.module('app').controller('TableController', function ($scope) {
         $scope.newElem = {};
         $scope.arrElems = arrElems;
 
-        $scope.deleteElement = this.deleteElement.bind(this);
+        $scope.del = this.deleteElement.bind(this);
 
         $scope.showElementForm = this.showElementForm.bind(this);
     }
@@ -17,7 +17,7 @@ angular.module('app').controller('TableController', function ($scope) {
         $scope.mainObj.showForm = true;
     };
 
-    TableController.prototype.deleteElement = function (index) {
+    TableController.prototype.del = function (index) {
         var message = 'Do you want to delete ' + arrElems[index].title + '(' + arrElems[index].sku + ')' + ' element?';
 
         if (confirm(message)) {

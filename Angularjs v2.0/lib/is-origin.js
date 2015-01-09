@@ -1,5 +1,5 @@
 angular.module('app').directive('isOrigin', function (arrElems) {
-        var tmpListElems = arrElems.getElement();
+        var tmpListElems = arrElems.get();
         function isOriginal(sku, index) { /*checks whether there is an elements with such sku, but not the object which we edit*/
             for (var i = 0, arr = tmpListElems.length; i < arr; i++) {
                 if (tmpListElems[i].sku == sku && i !== index) {

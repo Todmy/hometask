@@ -1,7 +1,7 @@
 (function ($) {
     $.fn.jqRepeat = function (arrElems, template) {
         var self = this;
-        var resultTmp = arrElems.getElement().reduce(function (memo, num) {
+        var resultTmp = arrElems.get().reduce(function (memo, num) {
             return memo + jqReplace(template, num)
         }, '');
         $(self).html(resultTmp);

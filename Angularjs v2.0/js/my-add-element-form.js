@@ -7,7 +7,7 @@ angular.module('app').controller("AddElemController", function ($scope, arrElems
 
     AddElemController.prototype.cancelAction = function () {
         if ($scope.mainObj.action === 'edit') {
-            arrElems.setElement($scope.reservCopy, $scope.mainObj.index); /*when the user cancels action*/
+            arrElems.set($scope.reservCopy, $scope.mainObj.index); /*when the user cancels action*/
         }
         this.close();
     };
@@ -20,10 +20,10 @@ angular.module('app').controller("AddElemController", function ($scope, arrElems
 
         switch ($scope.mainObj.action) {
             case 'add':
-                arrElems.setElement($scope.newElem);
+                arrElems.set($scope.newElem);
                 break;
             case 'edit':
-                arrElems.setElement($scope.newElem, $scope.mainObj.index);
+                arrElems.set($scope.newElem, $scope.mainObj.index);
                 break;
             default :
                 throw new Error('An unknown action type'); /*can be added other actions*/

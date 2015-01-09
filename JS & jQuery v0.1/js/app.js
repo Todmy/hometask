@@ -16,7 +16,7 @@
                 'click.to-json': 'showJson',
                 'click.add': 'addElement',
                 'click.edit': 'editElement',
-                'click.delete': 'deleteElement'
+                'click.delete': 'del'
             });
         },
 
@@ -30,7 +30,7 @@
 
         showJson: function () {
             $('[jq-show]').html('')
-                .append('<pre>' + JSON.stringify(this.options.list.getElement()) + '</pre>')
+                .append('<pre>' + JSON.stringify(this.options.list.get()) + '</pre>')
                 .toggleClass('invisible');
         },
 
@@ -51,13 +51,13 @@
             //console.log(e.target.parentNode.parentNode.rowIndex);
         },
 
-        deleteElement: function (e) {
+        del: function (e) {
             var index = e.target.parentNode.parentNode.rowIndex - 1;
-            var message = 'Do you want to delete ' + this.options.list.getElement()[index].title +
-                '(' + this.options.list.getElement()[index].sku + ') element?';
+            var message = 'Do you want to delete ' + this.options.list.get()[index].title +
+                '(' + this.options.list.get()[index].sku + ') element?';
 
             if (confirm(message)) {
-                this.options.list.deleteElement(index);
+                this.options.list.del(index);
             }
 
             this._ctreateTable();

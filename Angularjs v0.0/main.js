@@ -16,7 +16,7 @@ function TableController($scope) {
         $scope.mainObj.showJson = ($scope.mainObj.showJson) ? false : true;
     };
 
-    $scope.deleteElement = function (index) {
+    $scope.del = function (index) {
         if (confirm('Do you want to delete ' + (1 + index) + ' element?')) arrElems.splice(index, 1);
     };
 
