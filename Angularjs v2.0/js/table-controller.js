@@ -5,7 +5,7 @@ angular.module('app').controller('TableController', function ($scope, arrElems) 
         $scope.newElem = {}; /*an element which we edit/add */
         $scope.list = arrElems.get(); /*for ng-reply*/
 
-        $scope.del = this.deleteElement.bind(this);
+        $scope.del = this.del.bind(this);
 
         $scope.showElementForm = this.showElementForm.bind(this);
     }

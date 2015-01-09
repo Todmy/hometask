@@ -34,7 +34,7 @@
             <td>{{ row.price | currency }}</td>
             <td>
                 <button class="edit" ng-click="showElementForm('edit', $index)">edit</button>
-                <button class="delete" ng-click="deleteElement($index)">delete</button>
+                <button class="delete" ng-click="del($index)">delete</button>
             </td>
         </tr>
         </tbody>
