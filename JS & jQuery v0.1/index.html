@@ -47,15 +47,15 @@
         <td>${ sku }</td>
         <td>${ price }</td>
         <td>
-            <button jq-click="showElementForm('edit', $index)">edit</button>
-            <button jq-click="deleteElement($index)">delete</button>
+            <button  class="edit">edit</button>
+            <button  class="delete">delete</button>
         </td>
     </tr>
     </tbody>
 </table>
-<button jq-click="showElementForm('add')">add</button>
-<button jq-init jq-click="mainObj.showJson = !mainObj.showJson">to-JSON</button>
-<pre jq-show></pre>
+<button class="add">add</button>
+<button class="to-json">to-JSON</button>
+<div jq-show class="invisible"></div>
 
 <script src="js/arr-elems.js"></script>
 

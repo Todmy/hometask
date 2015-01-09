@@ -1,17 +1,17 @@
 (function ($) {
-    $.fn.jqRepeat = function () {
+    $.fn.jqRepeat = function (arrElems, template) {
         var self = this;
         var resultTmp = _.reduce(arrElems.getElement(), function (memo, num) {
-            return memo + jqReplace(self[0].innerHTML, num)
+            return memo + jqReplace(template, num)
         }, '');
         $(self).html(resultTmp);
     };
 })(jQuery);
 
-function jqReplace(tmp, obj) {
+function jqReplace(template, obj) {
     _.each(_.keys(obj), function (num) {
         var pattReplace = new RegExp("\\${[\\s]*" + num + "[\\s]*}", 'g');
-        tmp = tmp.replace(pattReplace, obj[num]);
+        template = template.replace(pattReplace, obj[num]);
     });
-    return tmp;
+    return template;
 }
