@@ -12,25 +12,6 @@
 <body jq-app>
 <h1>Products management page</h1>
 
-<div id="class-wrapper"></div>
-<form id="product">
-    <table>
-        <tr>
-            <td>Title</td>
-            <td><input name="title" type="text" value=''></td>
-        </tr>
-        <tr>
-            <td>Sku</td>
-            <td><input name="sku" type="text" value=''></td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td><input name="price" type="number" value=''></td>
-        </tr>
-    </table>
-    <input type="submit" value="&nbsp">
-</form>
-
 <table id="data">
     <thead>
     <tr>
@@ -42,9 +23,9 @@
     </thead>
     <tbody jq-repeat>
     <tr>
-        <td>${ title }</td>
-        <td>${ sku }</td>
-        <td>${ price }</td>
+        <td class="elem-title">${ title }</td>
+        <td class="elem-sku">${ sku }</td>
+        <td class="elem-price">${ price }</td>
         <td>
             <button  class="edit">edit</button>
             <button  class="delete">delete</button>
@@ -56,9 +37,12 @@
 <button class="to-json">to-JSON</button>
 <div jq-show class="invisible"></div>
 
+<script src="js/append-product-form.js"></script>
+
 <script src="js/arr-elems.js"></script>
 
 <script src="js/jq-repeat.js"></script>
+
 
 <script src="js/app.js"></script>
 </body>

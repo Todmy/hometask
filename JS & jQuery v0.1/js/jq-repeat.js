@@ -1,18 +1,22 @@
 (function ($) {
-    $.fn.jqRepeat = function (arrElems, template) {
-        var self = this;
-        var resultTmp = arrElems.get().reduce(function (memo, num) {
-            return memo + jqReplace(template, num)
-        }, '');
-        $(self).html(resultTmp);
+    $.Widget.prototype.jqRepeat = function (arrElements, template) {
+        //var self = this;
+        //console.log(arrElems.constructor);
+        //if(){
+        //
+        //}
+        return arrElements.map(function (num, ind) {
+            return $.parseHTML(jqReplace(template, num)).filter(function(elem){ return elem.nodeType === 1})[0];
+        });
+        //$(self).html('').append(resultTmp);
     };
 
     function jqReplace(template, obj) {
-        $.each(obj, function (key, element) {
+        $.each(obj, function (key) {
             var patternReplace = new RegExp("\\${[\\s]*" + key + "[\\s]*}", 'g');
             template = template.replace(patternReplace, obj[key]);
         });
+
         return template;
     }
 })(jQuery);
-
