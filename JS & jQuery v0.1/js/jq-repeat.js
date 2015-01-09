@@ -1,17 +1,18 @@
 (function ($) {
     $.fn.jqRepeat = function (arrElems, template) {
         var self = this;
-        var resultTmp = _.reduce(arrElems.getElement(), function (memo, num) {
+        var resultTmp = arrElems.getElement().reduce(function (memo, num) {
             return memo + jqReplace(template, num)
         }, '');
         $(self).html(resultTmp);
     };
+
+    function jqReplace(template, obj) {
+        $.each(obj, function (key, element) {
+            var patternReplace = new RegExp("\\${[\\s]*" + key + "[\\s]*}", 'g');
+            template = template.replace(patternReplace, obj[key]);
+        });
+        return template;
+    }
 })(jQuery);
 
-function jqReplace(template, obj) {
-    _.each(_.keys(obj), function (num) {
-        var pattReplace = new RegExp("\\${[\\s]*" + num + "[\\s]*}", 'g');
-        template = template.replace(pattReplace, obj[num]);
-    });
-    return template;
-}
