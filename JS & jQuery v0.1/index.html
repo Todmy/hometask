@@ -23,21 +23,40 @@
     </thead>
     <tbody jq-repeat>
     <tr>
-        <td class="elem-title">${ title }</td>
-        <td class="elem-sku">${ sku }</td>
-        <td class="elem-price">${ price }</td>
+        <td data-name="title">${ title }</td>
+        <td data-name="sku">${ sku }</td>
+        <td data-name="price">${ price }</td>
         <td>
-            <button  class="edit">edit</button>
-            <button  class="delete">delete</button>
+            <button name="edit" class="edit">edit</button>
+            <button name="delete"  class="delete">delete</button>
         </td>
     </tr>
     </tbody>
 </table>
 <button class="add">add</button>
 <button class="to-json">to-JSON</button>
-<div jq-show class="invisible"></div>
+<!--<div jq-show class="invisible"></div>-->
 
-<script src="js/append-product-form.js"></script>
+<script type="text/html" id="product-form">
+<div class="modal-overlay invisible"></div>
+<form name="item" class="invisible">
+    <table>
+        <tr>
+            <td>Title</td>
+            <td><input name="title" type="text" value=""></td>
+            </tr>
+        <tr>
+            <td>Sku</td>
+            <td><input name="sku" type="text" value=""></td>
+            </tr>
+        <tr>
+            <td>Price</td>
+            <td><input name="price" type="number" value=""></td>
+            </tr>
+        </table>
+    <button class="submit"></button>
+    </form>
+</script>
 
 <script src="js/arr-elems.js"></script>
 

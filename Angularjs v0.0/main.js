@@ -13,19 +13,19 @@ function TableController($scope) {
     $scope.arrElems = arrElems;
 
     $scope.toJson = function () {
-        $scope.mainObj.showJson = ($scope.mainObj.showJson) ? false : true;
+        $scope.mainObj._showJson = ($scope.mainObj._showJson) ? false : true;
     };
 
     $scope.del = function (index) {
         if (confirm('Do you want to delete ' + (1 + index) + ' element?')) arrElems.splice(index, 1);
     };
 
-    $scope.addElement = function (str) {
+    $scope._addElement = function (str) {
         resetFilds($scope);
         showFormFunc($scope, str);
     };
 
-    $scope.editElement = function (index) {
+    $scope._editElement = function (index) {
         $scope.newElem.index = index;
 
         $scope.newElem.title = arrElems[$scope.newElem.index].title;

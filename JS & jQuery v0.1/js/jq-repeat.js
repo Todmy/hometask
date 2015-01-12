@@ -1,13 +1,15 @@
 (function ($) {
-    $.Widget.prototype.jqRepeat = function (arrElements, template) {
+    $.Widget.prototype.jqRepeat = function (items, template) {
         //var self = this;
         //console.log(arrElems.constructor);
         //if(){
         //
         //}
-        return arrElements.map(function (num, ind) {
-            return $.parseHTML(jqReplace(template, num)).filter(function(elem){ return elem.nodeType === 1})[0];
-        });
+        return items.reduce(function (domNodes, item) {
+            var itemHtml = $.trim(jqReplace(template, item));
+
+            return domNodes.concat($.parseHTML(itemHtml));
+        }, []);
         //$(self).html('').append(resultTmp);
     };
 

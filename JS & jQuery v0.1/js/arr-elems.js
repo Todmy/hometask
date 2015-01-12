@@ -6,7 +6,7 @@ function CreateArrElems() {
     ];
     return {
 
-        set: function (elem, index) { /*adds element in some place of array, if index was passed and adds element at the end of array, if was not passed*/
+        add: function (elem, index) { /*adds element in some place of array, if index was passed and adds element at the end of array, if was not passed*/
             return (index !== undefined) ? list.splice(index, 1, elem) : list.push(elem);
         },
 

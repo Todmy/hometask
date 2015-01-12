@@ -12,11 +12,10 @@ h1{
 button{
     width: 70px;
 }
-#product.visible, #class-wrapper.visible{
-    display: block;
-}
-#product{
-    display: none;
+/*#product.visible, #class-wrapper.visible{*/
+    /*display: block;*/
+/*}*/
+form[name=item]{
     position: fixed;
     top: 40%;
     left: 50%;
@@ -28,11 +27,10 @@ button{
     border: 2px solid #000000;
     border-radius: 5px;
 }
-#product td{
+form[name=item] td{
     border: 1px dotted #000000;
 }
-#class-wrapper{
-    display: none;
+.modal-overlay{
     position: fixed;
     top: 0;
     left: 0;

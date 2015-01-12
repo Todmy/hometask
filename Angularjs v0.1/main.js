@@ -13,7 +13,7 @@ function TableController($scope) {
     $scope.arrElems = arrElems;
 
     $scope.toJson = function () {
-        $scope.mainObj.showJson = ($scope.mainObj.showJson) ? false : true;
+        $scope.mainObj._showJson = ($scope.mainObj._showJson) ? false : true;
     };
 
     $scope.del = function (index) {
