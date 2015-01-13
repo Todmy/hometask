@@ -42,3 +42,7 @@ form[name=item] td{
 .invisible{
     display: none;
 }
+.invalid{
+    border: 1px solid #d01821;
+    box-shadow: 0 0 7px #d01821;
+}

@@ -11,7 +11,7 @@
 
         _create: function () {
             this._on(this.element, {
-                'click .to-json': '_showJson',
+                'click .to-json': 'showJson',
                 'click .delete': 'deleteElement',
                 'click .add': 'addElement',
                 'click .edit': 'editElement',
@@ -21,7 +21,12 @@
             this._appendFormItem();
             this._appendJsonPlace();
 
+            this.validates('[name=item] input[name=title]', 'required')
+                .validates('[name=item] input[name=sku]', 'required unique')
+                .validates('[name=item] input[name=price]', 'required number');
+
         },
+
         _appendFormItem: function () {
             var itemFormTemplate = $('#' + this.options.rowTemplate).text();
             this.element.append(itemFormTemplate);
@@ -29,7 +34,7 @@
         },
 
         _appendJsonPlace: function () {
-            this.jsonPlace = $.parseHTML('<pre jq-show class="invisible"></pre>')[0];
+            this.jsonPlace = $('<pre class="invisible"></pre>');
             this.element.append(this.jsonPlace);
         },
 
@@ -40,16 +45,16 @@
 
         _createTable: function () {
             var tableRows = this.jqRepeat(this.options.list.get(), this.options.template);
-            $(this.options.body).html('').append(tableRows);
+            this.options.body.text('').append(tableRows);
         },
 
-        _showJson: function () {
-            this.jsonPlace.innerHTML = JSON.stringify(this.options.list.get(), null, 2);
-            $(this.jsonPlace).toggleClass('invisible');
+        showJson: function () {
+            var dump = JSON.stringify(this.options.list.get(), null, 2);
+            this.jsonPlace.text(dump).toggleClass('invisible');
         },
 
         deleteElement: function (event) {
-            var index = $(event.target).closest('tr')[0].rowIndex - 1;
+            var index = $(event.target).closest('tr').index();
             var message = 'Do you want to delete ' + this.options.list.get()[index].title +
                 '(' + this.options.list.get()[index].sku + ') element?';
 
@@ -64,29 +69,25 @@
         },
 
         addElement: function () {
-            this._productFormFill();
+            this._fillProductForm();
             this._showProductForm();
         },
 
         editElement: function (event) {
             var row = $(event.target).closest('tr');
-            this.index = row[0].rowIndex - 1;
+            this.index = row.index();
             var editableElement = arrElems.get(this.index);
-            this._productFormFill(editableElement);
+            this._fillProductForm(editableElement);
             this._showProductForm();
         },
 
-        _productFormFill: function (currentItem) {
-            if (!$.isEmptyObject(currentItem)) {
-                this.itemForm.title.value = currentItem.title;
-                this.itemForm.sku.value = currentItem.sku;
-                this.itemForm.price.value = currentItem.price;
-            } else {
-                var self = this;
-                $.each(self.itemForm, function (key) {
-                    self.itemForm[key].value = '';
-                })
-            }
+        _fillProductForm: function (currentItem) {
+            var form = this.itemForm;
+            currentItem = currentItem || {};
+
+            $.each('title sku price'.split(' '), function (i, fieldName) {
+                form[fieldName].value = currentItem[fieldName] || '';
+            });
         },
 
         _showProductForm: function () {
@@ -95,35 +96,85 @@
             this.element.find('.modal-overlay').removeClass('invisible');
         },
 
-        _submitProductForm: function (event) {
-            event.preventDefault();
-            var item = this.getNewItem();
+        validates: function (selector, validators) {
+            var validate = this._getValidators(validators);
 
-            //var isValidObject = this._isValid(addForm);
-            var isValidObject = {};
+            this._on(this.element.find(selector), {
+                change: validate
+            });
 
-            if ($.isEmptyObject(isValidObject) && $(this.itemForm).find('button.submit').html() === 'add') {
-                this.options.list.add(item);
-                $(this.options.body).append(this.jqRepeat([item], this.options.template));
-            } else if ($.isEmptyObject(isValidObject) && $(this.itemForm).find('button.submit').html() === 'edit') {
-                this.options.list.add(item, this.index);
-                var existedRow = this.options.body.children()[this.index];
-                $(existedRow).find('td[data-name=title]').text(item.title);
-                $(existedRow).find('td[data-name=sku]').text(item.sku);
-                $(existedRow).find('td[data-name=price]').text(item.price);
+            return this;
+        },
 
-                //$(insertRow).insertBefore(existedRow);
-                //this._deleteHTMLDom(this.index + 1);
-            } else {
-
-                console.log(isValidObject.field + ' -==- ' + isValidObject.messageError)
+        _getValidators: function (validators) {
+            var self = this;
+            return function (event) {
+                validators.split(' ').forEach(function (element) {
+                    var errorObject = self.validFunctionsHolder(element, event);
+                    $(event.target).removeClass('invalid');
+                    if(!errorObject.isValid && !$(event.target).hasClass('invalid')){
+                        $(event.target).addClass('invalid');
+                        console.log(errorObject.errorMessage);
+                    }
+                })
             }
+        },
 
+        validFunctionsHolder: function (key, event) {
+            switch (key) {
+                case 'required':
+                    return {
+                        isValid: !!event.target.value,
+                        errorMessage: 'Not filled all fields'
+                    };
+                case 'unique':
+                    return {
+                        isValid: this.isUnique(event),
+                        errorMessage: 'Not unique SKU'
+                    };
+                case 'number':
+                    return {
+                        isValid: typeof (+event.target.value) === 'number',
+                        errorMessage: 'Price must be a number'
+                    };
+                default :
+                    throw new Error('An unknown validation query');
+                    /*can be added other validation queries*/
+                    break;
+            }
+        },
+
+        isUnique: function (event) {
+            var self = this;
+
+            return this.options.list.get().every(function(elem){
+                //console.log(self.index);
+                return event.target.value !== elem.sku
+            });
+        },
+
+        _submitProductForm: function (event) {
+            var item = this._getNewItem();
+
+            event.preventDefault();
+
+            var isValid = this._isValidForm();
+
+            if (isValid && $(this.itemForm).find('button.submit').html() === 'add') {
+                this._addNewItem(item);
+                this._hideForm();
+            } else if (isValid && $(this.itemForm).find('button.submit').html() === 'edit') {
+                this._editCurrentItem(item);
+                this._hideForm();
+            }
+        },
+
+        _hideForm: function () {
             $(this.itemForm).addClass('invisible');
             this.element.find('.modal-overlay').addClass('invisible');
         },
 
-        getNewItem: function () {
+        _getNewItem: function () {
             return {
                 title: this.itemForm.title.value,
                 sku: this.itemForm.sku.value,
@@ -131,54 +182,24 @@
             };
         },
 
+        _isValidForm: function () {
+            return $.makeArray($(this.itemForm).find('input')).every(function (element) {
+                return !$(element).hasClass('invalid');
+            })
+        },
+
         _addNewItem: function (item) {
-
+            this.options.list.add(item);
+            $(this.options.body).append(this.jqRepeat([item], this.options.template));
         },
 
-
-
-
-
-        _isValid: function (addForm) {
-            var arrElems = this.options.list.get(),
-                typeAction = addForm.find('button.submit').html(),
-                title = addForm[0].title,
-                sku = addForm[0].sku,
-                message,
-                arrErrorFields,
-                price = addForm[0].price;
-
-            if (!title.value || !price.value || !sku.value) {
-                message = 'Fill all fields!';
-                arrErrorFields = [];
-                if (!title.value) {
-                    arrErrorFields.push(title);
-                }
-                if (!sku.value) {
-                    arrErrorFields.push(sku);
-                }
-                if (!price.value) {
-                    arrErrorFields.push(price);
-                }
-                return new this._errorObject(message, arrErrorFields);
-            }
-
-
-            for (var i = 0, arr = arrElems.length; i < arr; i++) {
-                if (arrElems[i].sku == sku.value && typeAction === 'add') {
-                    arrErrorFields = [sku];
-                    message = 'Sku in not unique';
-                    return new this._errorObject(message, arrErrorFields);
-                }
-            }
-
-            return {};
-
-            //return permit
-        },
-        _errorObject: function (message, errorField) {
-            this.messageError = message;
-            this.field = errorField;
+        _editCurrentItem: function (item) {
+            this.options.list.add(item, this.index);
+            var existedRow = this.options.body.children().eq(this.index);
+            $(existedRow).find('[data-name=title], [data-name=sku], [data-name=price]').each(function (index, element) {
+                var value = item[$.attr(this, 'data-name')];
+                $(this).text(value);
+            });
         }
     });
 
@@ -187,7 +208,4 @@
         body: $('[jq-repeat]'),
         rowTemplate: 'product-form'
     });
-
-//var itemFormTemplate = $('#' + this.options.rowTemplate).text();
-//    this.itemForm = $(itemFormTemplate);
 })(jQuery);
