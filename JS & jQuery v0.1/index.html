@@ -25,7 +25,7 @@
     <tr>
         <td data-name="title">${ title }</td>
         <td data-name="sku">${ sku }</td>
-        <td data-name="price">${ price }</td>
+        <td data-name="price">$ ${ price }</td>
         <td>
             <button name="edit" class="edit">edit</button>
             <button name="delete"  class="delete">delete</button>
@@ -42,18 +42,19 @@
     <table>
         <tr>
             <td>Title</td>
-            <td><input name="title"></td>
+            <td><input name="title" required></td>
             </tr>
         <tr>
             <td>Sku</td>
-            <td><input name="sku"></td>
+            <td><input name="sku" required></td>
             </tr>
         <tr>
             <td>Price</td>
-            <td><input type="number" name="price"></td>
+            <td><input type="number" name="price" required></td>
             </tr>
         </table>
     <button class="submit"></button>
+    <button class="cancel">cancel</button>
     </form>
 </script>
 

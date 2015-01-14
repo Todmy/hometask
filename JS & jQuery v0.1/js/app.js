@@ -76,6 +76,7 @@
         editElement: function (event) {
             var row = $(event.target).closest('tr');
             this.index = row.index();
+            this.editableElementLink = this.options.list.get(this.index); //got this link only for purpose to correctly validate uniqueness sku
             var editableElement = arrElems.get(this.index);
             this._fillProductForm(editableElement);
             this._showProductForm();
@@ -115,6 +116,8 @@
                     if(!errorObject.isValid && !$(event.target).hasClass('invalid')){
                         $(event.target).addClass('invalid');
                         console.log(errorObject.errorMessage);
+                    } else if (errorObject.isValid && $(event.target).hasClass('invalid')) {
+                        $(event.target).removeClass('invalid');
                     }
                 })
             }
@@ -146,10 +149,8 @@
 
         isUnique: function (event) {
             var self = this;
-
             return this.options.list.get().every(function(elem){
-                //console.log(self.index);
-                return event.target.value !== elem.sku
+                return event.target.value !== elem.sku || elem === self.editableElementLink;
             });
         },
 
@@ -166,6 +167,7 @@
             } else if (isValid && $(this.itemForm).find('button.submit').html() === 'edit') {
                 this._editCurrentItem(item);
                 this._hideForm();
+                this.editableElementLink = {};
             }
         },
 
@@ -198,7 +200,7 @@
             var existedRow = this.options.body.children().eq(this.index);
             $(existedRow).find('[data-name=title], [data-name=sku], [data-name=price]').each(function (index, element) {
                 var value = item[$.attr(this, 'data-name')];
-                $(this).text(value);
+                $(this).text(($(this).attr('data-name')==='price')?'$ '+value:value);
             });
         }
     });
