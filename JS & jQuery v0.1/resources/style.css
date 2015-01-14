@@ -42,7 +42,7 @@ form[name=item] td{
 .invisible{
     display: none;
 }
-.invalid{
+.invalid, input:invalid{
     box-shadow: 0 0 7px #d01821;
 }
 form[name=item] input:focus{

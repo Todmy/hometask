@@ -15,7 +15,9 @@
                 'click .delete': 'deleteElement',
                 'click .add': 'addElement',
                 'click .edit': 'editElement',
-                'submit [name=item]': '_submitProductForm'
+                'submit [name=item]': '_submitProductForm',
+                'click .cancel': 'closeForm',
+                'click .modal-overlay': 'closeForm'
             });
 
             this._appendFormItem();
@@ -93,7 +95,7 @@
 
         _showProductForm: function () {
             $(this.itemForm).removeClass('invisible')
-                .find('button.submit').html(event.target.innerHTML);
+                .find('input[type=submit]').attr('value', event.target.innerHTML);
             this.element.find('.modal-overlay').removeClass('invisible');
         },
 
@@ -161,19 +163,14 @@
 
             var isValid = this._isValidForm();
 
-            if (isValid && $(this.itemForm).find('button.submit').html() === 'add') {
+            if (isValid && $(this.itemForm).find('input[type=submit]').attr('value') === 'add') {
                 this._addNewItem(item);
                 this._hideForm();
-            } else if (isValid && $(this.itemForm).find('button.submit').html() === 'edit') {
+            } else if (isValid && $(this.itemForm).find('input[type=submit]').attr('value') === 'edit') {
                 this._editCurrentItem(item);
                 this._hideForm();
                 this.editableElementLink = {};
             }
-        },
-
-        _hideForm: function () {
-            $(this.itemForm).addClass('invisible');
-            this.element.find('.modal-overlay').addClass('invisible');
         },
 
         _getNewItem: function () {
@@ -202,7 +199,18 @@
                 var value = item[$.attr(this, 'data-name')];
                 $(this).text(($(this).attr('data-name')==='price')?'$ '+value:value);
             });
+        },
+
+        closeForm: function(event){
+            event.preventDefault();
+            this._hideForm()
+        },
+
+        _hideForm: function () {
+            $(this.itemForm).addClass('invisible');
+            this.element.find('.modal-overlay').addClass('invisible');
         }
+
     });
 
     $('[jq-app]').grid({
