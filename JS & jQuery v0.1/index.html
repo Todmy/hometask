@@ -27,34 +27,34 @@
         <td data-name="sku">${ sku }</td>
         <td data-name="price">$ ${ price }</td>
         <td>
-            <button name="edit" class="edit">edit</button>
-            <button name="delete"  class="delete">delete</button>
+            <button name="update" class="edit">edit</button>
+            <button name="delete" class="delete">delete</button>
         </td>
     </tr>
     </tbody>
 </table>
-<button class="add">add</button>
+<button name="create" class="add">add</button>
 <button class="to-json">to-JSON</button>
 
 <script type="text/html" id="product-form">
-<div class="modal-overlay invisible"></div>
-<form name="item" class="invisible">
-    <table>
-        <tr>
-            <td>Title</td>
-            <td><input name="title" required></td>
+    <div class="modal-overlay invisible"></div>
+    <form name="item" class="invisible">
+        <table>
+            <tr>
+                <td>Title</td>
+                <td><input name="title" required></td>
             </tr>
-        <tr>
-            <td>Sku</td>
-            <td><input name="sku" required></td>
+            <tr>
+                <td>Sku</td>
+                <td><input name="sku" required></td>
             </tr>
-        <tr>
-            <td>Price</td>
-            <td><input type="number" name="price" required></td>
+            <tr>
+                <td>Price</td>
+                <td><input type="number" name="price" required></td>
             </tr>
         </table>
-    <input type="submit" class="submit">
-    <button class="cancel">cancel</button>
+        <input type="submit" class="submit">
+        <button class="cancel">cancel</button>
     </form>
 </script>
 

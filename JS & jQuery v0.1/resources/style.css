@@ -12,9 +12,6 @@ h1{
 button{
     width: 70px;
 }
-/*#product.visible, #class-wrapper.visible{*/
-    /*display: block;*/
-/*}*/
 form[name=item]{
     position: fixed;
     top: 40%;
